@@ -2,7 +2,9 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
 class Forecast {
-  final String name;
+  // Class properties are defined here. These represent the data fields of the Forecast object.
+
+  final String? name;
   final bool isDaytime;
   final int temperature;
   final String temperatureUnit;
@@ -14,7 +16,10 @@ class Forecast {
   final int? humidity;
   final num? dewpoint;
 
-  // Constructor
+  // Constructor to initialize a Forecast object.
+  // Each parameter corresponds to a property defined above.
+  // Required fields must always be provided when creating a new instance, while optional fields can be omitted or set to null.
+  
   Forecast({
     required this.name,
     required this.isDaytime,
@@ -29,10 +34,11 @@ class Forecast {
     this.dewpoint
   });
 
-  // Factory constructor to create a Forecast from JSON
+  // A factory constructor that creates a Forecast instance from a JSON object.
+  // This is useful when working with APIs or other data sources that provide weather data in JSON format.
   factory Forecast.fromJson(Map<String, dynamic> json) {
     return Forecast(
-      name: json["name"],
+      name: json["name"].length > 0 ? json["name"] : null,
       isDaytime: json["isDaytime"],
       temperature: json["temperature"],
       temperatureUnit: json["temperatureUnit"],
@@ -46,27 +52,11 @@ class Forecast {
     );
   }
 
-  // Method to serialize Forecast back to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      "name": name,
-      "isDaytime": isDaytime,
-      "temperature": temperature,
-      "temperatureUnit": temperatureUnit,
-      "windSpeed": windSpeed,
-      "windDirection": windDirection,
-      "shortForecast": shortForecast,
-      "detailedForecast": detailedForecast,
-      "probabilityOfPrecipitation": {
-        "value": precipitationProbability,
-      },
-      "relativeHumidity": {
-        "value": humidity,
-      },
-      "dewpoint": {
-        "value" : dewpoint,
-      }
-    };
+  // Overriding the toString() method
+  @override
+  String toString(){
+    return name != null ? 'Forecast for ${name}\n' : ""
+      'Daytime: ${isDaytime ? "Yes" : "No"}\n';
   }
 }
 
@@ -105,6 +95,7 @@ List<Forecast> processForecasts(List<dynamic> forecastJsons){
   List<Forecast> forecasts = [];
   for (dynamic forecast in forecastJsons){
     forecasts.add(Forecast.fromJson(forecast));
+    print(Forecast.fromJson(forecast));
   }
   return forecasts;
 }
@@ -120,6 +111,7 @@ void processForecast(Map<String, dynamic> forecast){
   String detailedForecast = forecast["detailedForecast"];
   int? preciptationProb = forecast["probabilityOfPrecipitation"]["value"] ?? null;
   int? humidity = forecast["relativeHumidity"]?["value"];
+  num? dewpoint = forecast["dewpoint"]?["value"];
 
   return;
 }
