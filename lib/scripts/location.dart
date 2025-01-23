@@ -53,7 +53,7 @@ Future<Location> getLocationFromGps() async {
   String? zip = placemarks[0].postalCode;
 
   // return a Location object with the complete location
-  return Location(city: city, state: state, zip: zip, latitude: position.longitude, longitude: position.longitude);
+  return Location(city: city, state: state, zip: zip, latitude: position.latitude, longitude: position.longitude);
 
   
 } 
