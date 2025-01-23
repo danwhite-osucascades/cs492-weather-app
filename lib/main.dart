@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:weatherapp/scripts/tests.dart' as tests;
 import 'package:weatherapp/scripts/location.dart' as location;
-
+import 'package:weatherapp/scripts/forecast.dart' as forecasts;
 void main() {
   runApp(const MyApp());
 }
@@ -60,6 +60,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   // TODO: Add a new list of forecast.Forecast variable called _forecasts
+  forecasts.Forecast? _forecasts;
   location.Location? _currentLocation;
 
   @override
@@ -75,6 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
   // TODO Create a new function called getForecasts(location.Location currentLocation)
   // This function should use a location to call getForecastFromPoints(), passing in the lat, lon
   // use setState the same way as setLocation does to set your _forecasts to the returned forecasts
+  void getForecasts(location.Location currentLocation) async {
+    List<forecast.Forecast> forecasts = await forecast.getForecast;
+    setState(() {
+      _forecasts = forecasts.;
+    });
+  }
 
   void setLocation() async {
     if (_currentLocation == null){
@@ -82,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       location.Location? currentLocation = await location.getLocationFromGps();
 
       // TODO: Add a call to your getForecasts function passing in the currentLocation
+      getForecasts(currentLocation);
       
       setState(() {
         _currentLocation = currentLocation;
@@ -114,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               locationWidget(_currentLocation),
               // TODO: add a new call to forecastWidget that passes in _forecasts[0]
+              forecastWidget(_forecasts.isNotEmpty ? _forecasts[0] : null);
             ],
           ),
         ),
@@ -124,6 +133,29 @@ class _MyHomePageState extends State<MyHomePage> {
   
   // TODO: add a new Row forecastWidget to display some basic forecast information
   // you can choose the parts that you want to display for now.
+
+  Row forecastWidget(forecasts.Forecast? forecasts) {
+    return Row(
+      children: [
+        Text(
+          forecasts != null ? forecasts.name ?? "name" : "name",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          forecasts != null ? forecasts.state ?? "State" : "State",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          currentLocation != null ? currentLocation.zip ?? "Zip" : "Zip",
+          style: TextStyle(fontSize: 16, color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+  }
 
   Row locationWidget(location.Location? currentLocation) {
     return Row(
