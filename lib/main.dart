@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:weatherapp/scripts/tests.dart' as tests;
 import 'package:weatherapp/scripts/location.dart' as location;
-import 'package:weatherapp/scripts/forecast.dart' as forecasts;
+import 'package:weatherapp/scripts/forecast.dart' as forecast;
 void main() {
   runApp(const MyApp());
 }
@@ -60,7 +60,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   // TODO: Add a new list of forecast.Forecast variable called _forecasts
-  forecasts.Forecast? _forecasts;
+  List<forecast.Forecast> _forecasts = [];
   location.Location? _currentLocation;
 
   @override
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // This function should use a location to call getForecastFromPoints(), passing in the lat, lon
   // use setState the same way as setLocation does to set your _forecasts to the returned forecasts
   void getForecasts(location.Location currentLocation) async {
-    List<forecast.Forecast> forecasts = await forecast.getForecast;
+    List<forecast.Forecast> forecasts = await forecast.getForecastFromPoints(currentLocation.latitude, currentLocation.longitude);
     setState(() {
       _forecasts = forecasts.;
     });
@@ -134,21 +134,11 @@ class _MyHomePageState extends State<MyHomePage> {
   // TODO: add a new Row forecastWidget to display some basic forecast information
   // you can choose the parts that you want to display for now.
 
-  Row forecastWidget(forecasts.Forecast? forecasts) {
+  Row forecastWidget(forecast.Forecast? forecasts) {
     return Row(
       children: [
         Text(
-          forecasts != null ? forecasts.name ?? "name" : "name",
-          style: TextStyle(fontSize: 16, color: Colors.black),
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          forecasts != null ? forecasts.state ?? "State" : "State",
-          style: TextStyle(fontSize: 16, color: Colors.black),
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          currentLocation != null ? currentLocation.zip ?? "Zip" : "Zip",
+          forecasts != null ? forecasts.name ?? "temp",
           style: TextStyle(fontSize: 16, color: Colors.black),
           textAlign: TextAlign.center,
         ),
@@ -178,4 +168,3 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
   }
-}
