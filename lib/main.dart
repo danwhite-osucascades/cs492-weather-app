@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-  
+
   final String title;
 
   @override
@@ -61,6 +61,24 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     setState(() {
       _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
+  void _doubleCounter() {
+    setState(() {
+      _counter *= 2;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
     });
   }
 
@@ -85,12 +103,33 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(onPressed: _incrementCounter, child: const Text("+")),
+                CounterButton(counterFunction: _incrementCounter),
+                ElevatedButton(
+                    onPressed: _decrementCounter, child: const Text("-")),
+                ElevatedButton(
+                    onPressed: _doubleCounter, child: const Text("x2")),
+                ElevatedButton(
+                    onPressed: _resetCounter, child: const Text("Reset")),
               ],
             )
           ],
         ),
       ),
     );
+  }
+}
+
+class CounterButton extends StatelessWidget {
+  const CounterButton({
+    super.key,
+    required this.counterFunction
+  });
+
+  final VoidCallback counterFunction;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        onPressed: counterFunction, child: const Text("+"));
   }
 }
