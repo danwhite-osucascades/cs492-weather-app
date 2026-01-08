@@ -4,6 +4,16 @@ void main() {
   runApp(const MyApp());
 }
 
+// Assignment 1-2 TODOs:
+// Remove the default comments
+// Change the title of the application and the title of the home page to CS492
+// Change the seed color to something appealing
+// Instead of floating action button, use an elevated button
+// Extract your button widget so you can use it multiple times
+// Wrap the button in a Row, so you can add more buttons
+// Add more buttons for decrementing the counter and doubling the counter.
+// Create functions to handle those changes
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
