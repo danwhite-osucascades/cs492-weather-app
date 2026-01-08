@@ -103,13 +103,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CounterButton(counterFunction: _incrementCounter),
-                ElevatedButton(
-                    onPressed: _decrementCounter, child: const Text("-")),
-                ElevatedButton(
-                    onPressed: _doubleCounter, child: const Text("x2")),
-                ElevatedButton(
-                    onPressed: _resetCounter, child: const Text("Reset")),
+                CounterButton(counterFunction: _incrementCounter, text: "+"),
+                CounterButton(counterFunction: _decrementCounter, text: "-"),
+                CounterButton(counterFunction: _doubleCounter, text: "x2"),
+                CounterButton(counterFunction: _resetCounter, text: "Reset"),
               ],
             )
           ],
@@ -122,14 +119,16 @@ class _MyHomePageState extends State<MyHomePage> {
 class CounterButton extends StatelessWidget {
   const CounterButton({
     super.key,
-    required this.counterFunction
+    required this.counterFunction,
+    required this.text
   });
 
   final VoidCallback counterFunction;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: counterFunction, child: const Text("+"));
+        onPressed: counterFunction, child: Text(text));
   }
 }
