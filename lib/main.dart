@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './models/forecast.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -29,6 +31,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  
+  @override
+  void initState() {
+    super.initState();
+    getForecastsByLocation(44.058, -121.315);
+  }
+
 
   @override
   Widget build(BuildContext context) {
