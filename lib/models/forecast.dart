@@ -1,14 +1,25 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 class Forecast {
   // TODO: Update with more relevant stuff
   
   int temperature;
+  String windSpeed;
+  String windDirection;
+  String name;
+  String shortForecast;
+  String detailedForecast;
+  bool isDaytime;
 
   Forecast({
-    required this.temperature
+    required this.temperature,
+    required this.windSpeed,
+    required this.windDirection,
+    required this.name,
+    required this.shortForecast,
+    required this.detailedForecast,
+    required this.isDaytime,
   });
 }
 
@@ -19,5 +30,19 @@ void getForecastsByLocation(double lat, double long) async {
   http.Response forecastResponse = await http.get(Uri.parse(forecastUrl));
   final Map<String, dynamic> forecastJson = jsonDecode(forecastResponse.body);
   // return should actually be the forecasts
-  print(forecastResponse);
+  
+
+  http.Response forecastDetailResponse = await http.get(Uri.parse(forecastJson["properties"]["forecast"]));
+  final Map<String, dynamic> forecastDetailJson = jsonDecode(forecastDetailResponse.body);
+
+  Map<String, dynamic> f = forecastDetailJson["properties"]["periods"][0];
+  Forecast forecast = Forecast(temperature: f["temperature"], 
+                              windSpeed: f['windSpeed'], 
+                              windDirection: f["windDirection"], 
+                              name: f["name"], 
+                              shortForecast: f["shortForecast"], 
+                              detailedForecast: f["detailedForecast"], 
+                              isDaytime: f["isDaytime"]);
+
+  print(forecast);
 }
