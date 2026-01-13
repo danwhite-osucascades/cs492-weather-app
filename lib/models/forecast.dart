@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class Forecast {
   // TODO: Update with more relevant stuff
-  
+
   int temperature;
   String windSpeed;
   String windDirection;
@@ -23,26 +23,36 @@ class Forecast {
   });
 }
 
-
 // TODO create this function
-void getForecastsByLocation(double lat, double long) async {
+Future<List<Forecast>> getForecastsByLocation(double lat, double long) async {
   String forecastUrl = "https://api.weather.gov/points/$lat,$long";
   http.Response forecastResponse = await http.get(Uri.parse(forecastUrl));
   final Map<String, dynamic> forecastJson = jsonDecode(forecastResponse.body);
   // return should actually be the forecasts
-  
 
-  http.Response forecastDetailResponse = await http.get(Uri.parse(forecastJson["properties"]["forecast"]));
-  final Map<String, dynamic> forecastDetailJson = jsonDecode(forecastDetailResponse.body);
+  http.Response forecastDetailResponse =
+      await http.get(Uri.parse(forecastJson["properties"]["forecast"]));
+  final Map<String, dynamic> forecastDetailJson =
+      jsonDecode(forecastDetailResponse.body);
 
-  Map<String, dynamic> f = forecastDetailJson["properties"]["periods"][0];
-  Forecast forecast = Forecast(temperature: f["temperature"], 
-                              windSpeed: f['windSpeed'], 
-                              windDirection: f["windDirection"], 
-                              name: f["name"], 
-                              shortForecast: f["shortForecast"], 
-                              detailedForecast: f["detailedForecast"], 
-                              isDaytime: f["isDaytime"]);
+  List<Forecast> forecasts = [];
 
-  print(forecast);
+  List<dynamic> periods =
+      forecastDetailJson["properties"]["periods"];
+
+  for (int i = 0; i < periods.length; i++) {
+    Map<String, dynamic> f = periods[i];
+    forecasts.add(
+      Forecast(
+          temperature: f["temperature"],
+          windSpeed: f['windSpeed'],
+          windDirection: f["windDirection"],
+          name: f["name"],
+          shortForecast: f["shortForecast"],
+          detailedForecast: f["detailedForecast"],
+          isDaytime: f["isDaytime"])
+      );
+  }
+
+  return forecasts;
 }
