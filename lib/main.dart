@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Forecast> _forecasts = [];
+  Location? _location;
 
   @override
   void initState() {
@@ -42,9 +43,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _initForecasts() async {
-    List<Forecast> forecasts = await getForecastsByLocation(44.058, -121.315);
+    
 
-    getLocationFromString("Springfield");
+    Location location = await getLocationFromString("Miami");
+
+    List<Forecast> forecasts = await getForecastsByLocation(location.latitude, location.longitude);
     
     setState(() {
       _forecasts = forecasts;

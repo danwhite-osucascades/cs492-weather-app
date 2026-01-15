@@ -1,19 +1,33 @@
 import 'package:geocoding/geocoding.dart' as geocoding;
 
+class Location {
+  String city;
+  String state;
+  String zip;
+  String country;
+  double latitude;
+  double longitude;
 
-// TODO:
-// create a Location class that will hold:
-// city, state, country, zip, latitude, longitude
+  Location(
+      {required this.city,
+      required this.state,
+      required this.zip,
+      required this.country,
+      required this.latitude,
+      required this.longitude});
+}
 
-
-
-// change this function to return a single Location object
-void getLocationFromString(String s) async {
+Future<Location> getLocationFromString(String s) async {
   List<geocoding.Location> locations = await geocoding.locationFromAddress(s);
 
-  print(locations);
+  List<geocoding.Placemark> placemarks = await geocoding
+      .placemarkFromCoordinates(locations[0].latitude, locations[0].longitude);
 
-  List<geocoding.Placemark> placemarks = await geocoding.placemarkFromCoordinates(locations[0].latitude, locations[0].longitude);
-
-  print(placemarks);
+  return Location(
+      city: placemarks[0].locality ?? "",
+      state: placemarks[0].administrativeArea ?? "",
+      zip: placemarks[0].postalCode ?? "",
+      country: placemarks[0].country ?? "",
+      latitude: locations[0].latitude,
+      longitude: locations[0].longitude);
 }
