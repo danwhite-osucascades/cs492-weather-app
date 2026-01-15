@@ -20,6 +20,17 @@ class Forecast {
     required this.detailedForecast,
     required this.isDaytime,
   });
+
+  factory Forecast.fromJson(Map<String, dynamic> json){
+      return Forecast(
+      temperature: json["temperature"],
+      windSpeed: json['windSpeed'],
+      windDirection: json["windDirection"],
+      name: json["name"],
+      shortForecast: json["shortForecast"],
+      detailedForecast: json["detailedForecast"],
+      isDaytime: json["isDaytime"]);
+  }
 }
 
 Future<List<Forecast>> getForecastsByLocation(double lat, double long) async {
@@ -39,16 +50,7 @@ Future<List<Forecast>> getForecastsByLocation(double lat, double long) async {
 
   for (int i = 0; i < periods.length; i++) {
     Map<String, dynamic> f = periods[i];
-    forecasts.add(
-      Forecast(
-          temperature: f["temperature"],
-          windSpeed: f['windSpeed'],
-          windDirection: f["windDirection"],
-          name: f["name"],
-          shortForecast: f["shortForecast"],
-          detailedForecast: f["detailedForecast"],
-          isDaytime: f["isDaytime"])
-      );
+    forecasts.add(Forecast.fromJson(f));
   }
 
   return forecasts;

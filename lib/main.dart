@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import './models/forecast.dart';
 
+import './models/location.dart';  
+
 void main() {
   runApp(const MyApp());
 }
@@ -41,6 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _initForecasts() async {
     List<Forecast> forecasts = await getForecastsByLocation(44.058, -121.315);
+
+    getLocationFromString("Springfield");
+    
     setState(() {
       _forecasts = forecasts;
     });
