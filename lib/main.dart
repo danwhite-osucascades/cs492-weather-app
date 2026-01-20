@@ -5,9 +5,8 @@ import './widgets/location.dart';
 import './widgets/forecasts.dart';
 
 // TODOS:
-// Look over code changes
-// Work on refactoring for proper encapsulation of widgets
-// Add GPS functionality
+// Make the Location Widget look better padding and alignment.
+// Work on the formatting of the Forecasts/Forecast widget.
 
 void main() {
   runApp(const MyApp());
@@ -48,12 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _setLocationFromGps() async {
-    Location location = await getLocationFromGps();    
+    Location location = await getLocationFromGps();
     _getForecasts(location);
     setState(() {
       _location = location;
     });
-
   }
 
   void _setLocation(String locationString) async {
@@ -84,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 500,
         child: Column(
           children: [
-            LocationWidget(location: _location, setLocation: _setLocation),
+            LocationWidget(location: _location, setLocation: _setLocation, setLocationFromGps: _setLocationFromGps,),
             SizedBox(
               width: double.infinity,
               height: 200,
@@ -96,7 +94,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-
-
