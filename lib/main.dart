@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import './models/forecast.dart';
 import './models/location.dart';
 
+// TODOS:
+// Look over code changes
+// Work on refactoring for proper encapsulation of widgets
+// Add GPS functionality
 
 void main() {
   runApp(const MyApp());
@@ -49,7 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _getForecasts(Location location) async {
-    List<Forecast> forecasts = await getForecastsByLocation(location.latitude, location.longitude);
+    List<Forecast> forecasts =
+        await getForecastsByLocation(location.latitude, location.longitude);
     setState(() {
       _forecasts = forecasts;
     });
@@ -95,7 +100,7 @@ class LocationWidget extends StatelessWidget {
   final TextEditingController _locationController = TextEditingController();
   final void Function(String) setLocation;
 
-  void _setLocation(){
+  void _setLocation() {
     setLocation(_locationController.text);
   }
 
@@ -103,7 +108,9 @@ class LocationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(controller: _locationController, decoration: InputDecoration(labelText: "Enter Location")),
+        TextField(
+            controller: _locationController,
+            decoration: InputDecoration(labelText: "Enter Location")),
         ElevatedButton(onPressed: _setLocation, child: Text("Set Location")),
         Text(_location != null
             ? "${_location?.city}, ${_location?.state} ${_location?.zip}"
