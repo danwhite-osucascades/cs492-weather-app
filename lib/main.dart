@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import './models/forecast.dart';
 import './models/location.dart';
+import './widgets/location.dart';
+import './widgets/forecasts.dart';
 
 // TODOS:
 // Look over code changes
@@ -41,7 +43,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    _setLocationFromGps();
     super.initState();
+  }
+
+  void _setLocationFromGps() async {
+    Location location = await getLocationFromGps();    
+    _getForecasts(location);
+    setState(() {
+      _location = location;
+    });
+
   }
 
   void _setLocation(String locationString) async {
@@ -76,11 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: double.infinity,
               height: 200,
-              child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: _forecasts
-                      .map((forecast) => ForecastWidget(forecast: forecast))
-                      .toList()),
+              child: ForecastsWidget(forecasts: _forecasts),
             ),
           ],
         ),
@@ -89,57 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class LocationWidget extends StatelessWidget {
-  LocationWidget({
-    super.key,
-    required Location? location,
-    required this.setLocation,
-  }) : _location = location;
 
-  final Location? _location;
-  final TextEditingController _locationController = TextEditingController();
-  final void Function(String) setLocation;
 
-  void _setLocation() {
-    setLocation(_locationController.text);
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-            controller: _locationController,
-            decoration: InputDecoration(labelText: "Enter Location")),
-        ElevatedButton(onPressed: _setLocation, child: Text("Set Location")),
-        Text(_location != null
-            ? "${_location?.city}, ${_location?.state} ${_location?.zip}"
-            : "No Location..."),
-      ],
-    );
-  }
-}
-
-class ForecastWidget extends StatelessWidget {
-  const ForecastWidget({
-    super.key,
-    required this.forecast,
-  });
-
-  final Forecast forecast;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Text(forecast.name),
-          Text(forecast.shortForecast),
-          Text(forecast.temperature.toString()),
-          Text(forecast.isDaytime ? "Day" : "Night")
-        ],
-      ),
-    );
-  }
-}
