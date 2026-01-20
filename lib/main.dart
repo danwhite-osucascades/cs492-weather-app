@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-
 import './models/forecast.dart';
+import './models/location.dart';
 
-import './models/location.dart';  
-
-// TODO:
-// Add text field and elevated button
-// Allow the user to enter a location, when they click the button, update the location and forecasts
 
 void main() {
   runApp(const MyApp());
@@ -43,18 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _initForecasts();
   }
 
-  void _initForecasts() async {
-    
-
-    Location location = await getLocationFromString("Miami");
-
-    List<Forecast> forecasts = await getForecastsByLocation(location.latitude, location.longitude);
-    
+  void _setLocation(String locationString) async {
+    Location location = await getLocationFromString(locationString);
+    _getForecasts(location);
     setState(() {
       _location = location;
+    });
+  }
+
+  void _getForecasts(Location location) async {
+    List<Forecast> forecasts = await getForecastsByLocation(location.latitude, location.longitude);
+    setState(() {
       _forecasts = forecasts;
     });
   }
@@ -66,17 +62,53 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: 
-          SizedBox(
-            width: 500,
-            child: Column(
-              children: [
-                Text(_location != null ? "${_location?.city}, ${_location?.state} ${_location?.zip}" : "No Location..."),
-                Row(children: _forecasts.map((forecast)=> ForecastWidget(forecast: forecast)).toList()),
-              ],
+      body: SizedBox(
+        height: double.infinity,
+        width: 500,
+        child: Column(
+          children: [
+            LocationWidget(location: _location, setLocation: _setLocation),
+            SizedBox(
+              width: double.infinity,
+              height: 200,
+              child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: _forecasts
+                      .map((forecast) => ForecastWidget(forecast: forecast))
+                      .toList()),
             ),
-          ),
-      
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LocationWidget extends StatelessWidget {
+  LocationWidget({
+    super.key,
+    required Location? location,
+    required this.setLocation,
+  }) : _location = location;
+
+  final Location? _location;
+  final TextEditingController _locationController = TextEditingController();
+  final void Function(String) setLocation;
+
+  void _setLocation(){
+    setLocation(_locationController.text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TextField(controller: _locationController, decoration: InputDecoration(labelText: "Enter Location")),
+        ElevatedButton(onPressed: _setLocation, child: Text("Set Location")),
+        Text(_location != null
+            ? "${_location?.city}, ${_location?.state} ${_location?.zip}"
+            : "No Location..."),
+      ],
     );
   }
 }
