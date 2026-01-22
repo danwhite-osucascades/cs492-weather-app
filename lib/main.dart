@@ -3,10 +3,12 @@ import './models/forecast.dart';
 import './models/location.dart';
 import './widgets/location.dart';
 import './widgets/forecasts.dart';
+import './widgets/detailed_forecast.dart';
 
 // TODOS:
-// Add input validation for location before calling set location (state vs stateless)
-// Create a new full forecast widget that will show all the details when a forecast is tapped
+// Create a new widget called detailedForecast, which will show an active forecast in detail
+// This active forecast should be set as the first forecast by default
+// The forecast should also be set by tapping one of the forecast tiles
 
 void main() {
   runApp(const MyApp());
@@ -38,12 +40,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Forecast> _forecasts = [];
+  Forecast? _activeForecast;
   Location? _location;
 
   @override
   void initState() {
     _setLocationFromGps();
     super.initState();
+  }
+
+  void _setActiveForecast(Forecast forecast) {
+    setState(() {
+      _activeForecast = forecast;
+    });
   }
 
   void _setLocationFromGps() async {
@@ -68,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
           await getForecastsByLocation(location.latitude, location.longitude);
       setState(() {
         _forecasts = forecasts;
+        _activeForecast = _forecasts[0];
       });
     }
   }
@@ -92,8 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: double.infinity,
               height: 200,
-              child: ForecastsWidget(forecasts: _forecasts),
+              child: ForecastsWidget(forecasts: _forecasts, setActiveForecast: _setActiveForecast,),
             ),
+            DetailedForecast(activeForecast: _activeForecast)
           ],
         ),
       ),
