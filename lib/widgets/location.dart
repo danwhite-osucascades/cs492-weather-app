@@ -21,21 +21,34 @@ class LocationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-            controller: _locationController,
-            decoration: InputDecoration(labelText: "Enter Location")),
-        Row(
-          children: [
-            ElevatedButton(onPressed: _setLocation, child: Text("Set Location")),
-            ElevatedButton(onPressed: setLocationFromGps, child: Text("Set Location from GPS")),
-          ],
-        ),
-        Text(_location != null
-            ? "${_location.city}, ${_location.state} ${_location.zip}"
-            : "No Location..."),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        children: [
+          TextField(
+              controller: _locationController,
+              decoration: InputDecoration(labelText: "Enter Location")),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: _setLocation, child: Text("Set Location")),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: setLocationFromGps,
+                    child: Text("Set Location from GPS")),
+              ),
+            ],
+          ),
+          Text(_location != null
+              ? "${_location.city}, ${_location.state} ${_location.zip}"
+              : "No Location..."),
+        ],
+      ),
     );
   }
 }
