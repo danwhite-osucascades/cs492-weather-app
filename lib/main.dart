@@ -5,8 +5,8 @@ import './widgets/location.dart';
 import './widgets/forecasts.dart';
 
 // TODOS:
-// Make the Location Widget look better padding and alignment.
-// Work on the formatting of the Forecasts/Forecast widget.
+// Add input validation for location before calling set location (state vs stateless)
+// Create a new full forecast widget that will show all the details when a forecast is tapped
 
 void main() {
   runApp(const MyApp());
