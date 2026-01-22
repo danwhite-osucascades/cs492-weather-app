@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/location.dart';
 
-class LocationWidget extends StatelessWidget {
+class LocationWidget extends StatefulWidget {
   LocationWidget({
     super.key,
     required Location? location,
@@ -11,12 +11,41 @@ class LocationWidget extends StatelessWidget {
   }) : _location = location;
 
   final Location? _location;
-  final TextEditingController _locationController = TextEditingController();
   final void Function(String) setLocation;
   final void Function() setLocationFromGps;
 
+  @override
+  State<LocationWidget> createState() => _LocationWidgetState();
+}
+
+class _LocationWidgetState extends State<LocationWidget> {
+  final TextEditingController _locationController = TextEditingController();
+
+  bool _showError = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _locationController.addListener(() {
+      if (_locationController.text.isNotEmpty){
+        setState(() {
+          _showError = false;
+        });
+      }
+    });
+  }
+
   void _setLocation() {
-    setLocation(_locationController.text);
+    if (_locationController.text.isEmpty){
+      setState(() {
+        _showError = true;
+      });
+    }
+    else {
+      widget.setLocation(_locationController.text);
+    }
+    
   }
 
   @override
@@ -27,7 +56,7 @@ class LocationWidget extends StatelessWidget {
         children: [
           TextField(
               controller: _locationController,
-              decoration: InputDecoration(labelText: "Enter Location")),
+              decoration: InputDecoration(labelText: "Enter Location", errorText: _showError ? "Error: Must Type Location" : null)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -39,13 +68,13 @@ class LocationWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: setLocationFromGps,
+                    onPressed: widget.setLocationFromGps,
                     child: Text("Set Location from GPS")),
               ),
             ],
           ),
-          Text(_location != null
-              ? "${_location.city}, ${_location.state} ${_location.zip}"
+          Text(widget._location != null
+              ? "${widget._location?.city}, ${widget._location?.state} ${widget._location?.zip}"
               : "No Location..."),
         ],
       ),

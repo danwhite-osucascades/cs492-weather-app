@@ -55,19 +55,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _setLocation(String locationString) async {
-    Location location = await getLocationFromString(locationString);
+    Location? location = await getLocationFromString(locationString);
     _getForecasts(location);
     setState(() {
       _location = location;
     });
   }
 
-  void _getForecasts(Location location) async {
-    List<Forecast> forecasts =
-        await getForecastsByLocation(location.latitude, location.longitude);
-    setState(() {
-      _forecasts = forecasts;
-    });
+  void _getForecasts(Location? location) async {
+    if (location != null) {
+      List<Forecast> forecasts =
+          await getForecastsByLocation(location.latitude, location.longitude);
+      setState(() {
+        _forecasts = forecasts;
+      });
+    }
   }
 
   @override
@@ -82,7 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 500,
         child: Column(
           children: [
-            LocationWidget(location: _location, setLocation: _setLocation, setLocationFromGps: _setLocationFromGps,),
+            LocationWidget(
+              location: _location,
+              setLocation: _setLocation,
+              setLocationFromGps: _setLocationFromGps,
+            ),
             SizedBox(
               width: double.infinity,
               height: 200,
