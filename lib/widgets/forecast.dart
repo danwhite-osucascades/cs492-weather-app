@@ -23,8 +23,8 @@ class ForecastWidget extends StatelessWidget {
         ? Colors.orange
         : Colors.indigo;
 
-    return ElevatedButton(
-      onPressed: _setActiveForecast,
+    return InkWell(
+      onTap: _setActiveForecast,
       child: SizedBox(
         width: 160,
         height: 200,

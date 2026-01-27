@@ -6,9 +6,8 @@ import './widgets/forecasts.dart';
 import './widgets/detailed_forecast.dart';
 
 // TODOS:
-// Create a new widget called detailedForecast, which will show an active forecast in detail
-// This active forecast should be set as the first forecast by default
-// The forecast should also be set by tapping one of the forecast tiles
+// Show more details in the widgets/detailed_forecast.dart
+// Work on styling the widget so it looks okay
 
 void main() {
   runApp(const MyApp());
