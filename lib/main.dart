@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:weatherapp/widgets/forecast.dart';
 import './models/forecast.dart';
 import './models/location.dart';
 import './widgets/location.dart';
-import './widgets/forecasts.dart';
-import './widgets/detailed_forecast.dart';
 
 // TODOS:
 // Use a TabBar to separate the location and weather into separate tabs
@@ -50,9 +49,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _setLocationFromGps();
+    // _setLocationFromGps();
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.index = 1;
   }
 
   void _setActiveForecast(Forecast forecast) {
@@ -94,28 +94,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
-          bottom: TabBar(
-              controller: _tabController,
-              tabs: [Tab(icon: Icon(Icons.sunny_snowing)), Tab(icon: Icon(Icons.location_pin),)])),
+          actions: [
+            Text(_location != null ? "${_location?.city}, ${_location?.state}" : ""),
+          ],
+          bottom: TabBar(controller: _tabController, tabs: [
+            Tab(icon: Icon(Icons.sunny_snowing)),
+            Tab(
+              icon: Icon(Icons.location_pin),
+            )
+          ])),
       body: SizedBox(
         height: double.infinity,
         width: 500,
         child: TabBarView(
           controller: _tabController,
           children: [
-            Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: 200,
-                  child: ForecastsWidget(
-                    forecasts: _forecasts,
-                    setActiveForecast: _setActiveForecast,
-                  ),
-                ),
-                DetailedForecast(activeForecast: _activeForecast)
-              ],
-            ),
+            ForecastWidget(
+                forecasts: _forecasts,
+                activeForecast: _activeForecast,
+                setActiveForecast: _setActiveForecast),
             LocationWidget(
               location: _location,
               setLocation: _setLocation,

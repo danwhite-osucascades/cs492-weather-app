@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../models/forecast.dart';
-import './forecast.dart';
+import 'forecast_tile.dart';
 
 
 class ForecastsWidget extends StatelessWidget {
@@ -19,7 +19,7 @@ class ForecastsWidget extends StatelessWidget {
     return ListView(
         scrollDirection: Axis.horizontal,
         children: _forecasts
-            .map((forecast) => ForecastWidget(forecast: forecast, setActiveForecast: setActiveForecast,))
+            .map((forecast) => ForecastTileWidget(forecast: forecast, setActiveForecast: setActiveForecast,))
             .toList());
   }
 }
