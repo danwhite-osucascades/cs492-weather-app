@@ -6,8 +6,9 @@ import './widgets/forecasts.dart';
 import './widgets/detailed_forecast.dart';
 
 // TODOS:
-// Show more details in the widgets/detailed_forecast.dart
-// Work on styling the widget so it looks okay
+// Use a TabBar to separate the location and weather into separate tabs
+// Use icons to represent each
+// Prevent tapping the weather tab unless a valid location is selected.
 
 void main() {
   runApp(const MyApp());
