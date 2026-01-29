@@ -13,6 +13,9 @@ class LocationProvider extends ChangeNotifier {
     if (locationString != null && locationString.trim().isNotEmpty) {
       location = await getLocationFromString(locationString);
     }
+    else {
+      location = null;
+    }
     notifyListeners();
   }
 }

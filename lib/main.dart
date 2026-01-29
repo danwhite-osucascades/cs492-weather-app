@@ -115,11 +115,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 forecasts: _forecasts,
                 activeForecast: _activeForecast,
                 setActiveForecast: _setActiveForecast),
-            LocationWidget(
-              location: _locationProvider.location,
-              setLocation: _locationProvider.setLocation,
-              setLocationFromGps: _locationProvider.setLocationFromGps,
-            ),
+            LocationWidget(locationProvider: _locationProvider),
           ],
         ),
       ),

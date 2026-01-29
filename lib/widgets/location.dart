@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
-
-import '../models/location.dart';
+import 'package:weatherapp/providers/location_provider.dart';
 
 class LocationWidget extends StatefulWidget {
-  const LocationWidget({
-    super.key,
-    required Location? location,
-    required this.setLocation,
-    required this.setLocationFromGps,
-  }) : _location = location;
+  const LocationWidget({super.key, required this.locationProvider});
 
-  final Location? _location;
-  final void Function(String?) setLocation;
-  final void Function() setLocationFromGps;
+  final LocationProvider locationProvider;
 
   @override
   State<LocationWidget> createState() => _LocationWidgetState();
@@ -26,7 +18,6 @@ class _LocationWidgetState extends State<LocationWidget> {
   @override
   void initState() {
     super.initState();
-
     _locationController.addListener(() {
       if (_locationController.text.isNotEmpty) {
         setState(() {
@@ -42,12 +33,12 @@ class _LocationWidgetState extends State<LocationWidget> {
         _showError = true;
       });
     } else {
-      widget.setLocation(_locationController.text);
+      widget.locationProvider.setLocation(_locationController.text);
     }
   }
 
   void _clearLocation() {
-    widget.setLocation(null);
+    widget.locationProvider.setLocation(null);
     _locationController.text = "";
   }
 
@@ -73,19 +64,18 @@ class _LocationWidgetState extends State<LocationWidget> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: widget.setLocationFromGps,
+                    onPressed: widget.locationProvider.setLocationFromGps,
                     child: Text("GPS")),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: _clearLocation,
-                    child: Text("Clear Location")),
+                    onPressed: _clearLocation, child: Text("Clear Location")),
               ),
             ],
           ),
-          Text(widget._location != null
-              ? "${widget._location?.city}, ${widget._location?.state} ${widget._location?.zip}"
+          Text(widget.locationProvider.location != null
+              ? "${widget.locationProvider.location?.city}, ${widget.locationProvider.location?.state} ${widget.locationProvider.location?.zip}"
               : "No Location..."),
         ],
       ),
