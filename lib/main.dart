@@ -4,9 +4,8 @@ import './models/forecast.dart';
 import './models/location.dart';
 import './widgets/location.dart';
 
-// TODOS:
-// Add a clear location button to the location widget
-// If implemented correctly, the location should clear, and you shouldn't be able to click the weather tab
+// TODOs
+// Implement global state management for Location and Forecast using ChangeProvider
 
 void main() {
   runApp(const MyApp());
@@ -44,7 +43,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // _setLocationFromGps();
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.index = 1;
