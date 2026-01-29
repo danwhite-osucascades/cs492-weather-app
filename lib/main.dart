@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weatherapp/providers/forecast_provider.dart';
 import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/widgets/forecast.dart';
 import './models/forecast.dart';
 import './models/location.dart';
 import './widgets/location.dart';
 
-// TODOs
-// Implement global state management for Location and Forecast using ChangeProvider
-
 // TODO:
-// Update the location widget, so that you no longer need to pass the location or set functions
-
+// implement the forecast provider
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => LocationProvider(), child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => LocationProvider()),
+    ChangeNotifierProvider(create: (context) => ForecastProvider())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
