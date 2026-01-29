@@ -48,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.index = 1;
-    _tabController.addListener((){
-      if (_location == null){
+    _tabController.addListener(() {
+      if (_location == null) {
         _tabController.index = 1;
       }
     });
@@ -69,12 +69,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
   }
 
-  void _setLocation(String locationString) async {
+  void _setLocation(String? locationString) async {
     Location? location;
-    if (locationString != ""){
+
+    if (locationString != null && locationString.trim().isNotEmpty) {
       location = await getLocationFromString(locationString);
       _getForecasts(location);
     }
+
     setState(() {
       _location = location;
     });
@@ -98,7 +100,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
           actions: [
-            Text(_location != null ? "${_location?.city}, ${_location?.state}" : ""),
+            if (_location != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Text(
+                  "${_location!.city}, ${_location!.state}",
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.5,
+                      ),
+                ),
+              ),
           ],
           bottom: TabBar(controller: _tabController, tabs: [
             Tab(icon: Icon(Icons.sunny_snowing)),

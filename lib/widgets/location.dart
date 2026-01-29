@@ -11,7 +11,7 @@ class LocationWidget extends StatefulWidget {
   }) : _location = location;
 
   final Location? _location;
-  final void Function(String) setLocation;
+  final void Function(String?) setLocation;
   final void Function() setLocationFromGps;
 
   @override
@@ -47,7 +47,8 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 
   void _clearLocation() {
-    widget.setLocation("");
+    widget.setLocation(null);
+    _locationController.text = "";
   }
 
   @override
