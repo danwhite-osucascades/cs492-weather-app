@@ -43,13 +43,9 @@ class DetailedForecast extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-
               const SizedBox(height: 8),
-
               const Divider(),
-
               const SizedBox(height: 8),
-
               Expanded(
                 child: SingleChildScrollView(
                   child: Text(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/location.dart';
 
 class LocationWidget extends StatefulWidget {
-  LocationWidget({
+  const LocationWidget({
     super.key,
     required Location? location,
     required this.setLocation,
@@ -28,7 +28,7 @@ class _LocationWidgetState extends State<LocationWidget> {
     super.initState();
 
     _locationController.addListener(() {
-      if (_locationController.text.isNotEmpty){
+      if (_locationController.text.isNotEmpty) {
         setState(() {
           _showError = false;
         });
@@ -37,15 +37,17 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 
   void _setLocation() {
-    if (_locationController.text.isEmpty){
+    if (_locationController.text.isEmpty) {
       setState(() {
         _showError = true;
       });
-    }
-    else {
+    } else {
       widget.setLocation(_locationController.text);
     }
-    
+  }
+
+  void _clearLocation() {
+    widget.setLocation("");
   }
 
   @override
@@ -56,7 +58,9 @@ class _LocationWidgetState extends State<LocationWidget> {
         children: [
           TextField(
               controller: _locationController,
-              decoration: InputDecoration(labelText: "Enter Location", errorText: _showError ? "Error: Must Type Location" : null)),
+              decoration: InputDecoration(
+                  labelText: "Enter Location",
+                  errorText: _showError ? "Error: Must Type Location" : null)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -69,7 +73,13 @@ class _LocationWidgetState extends State<LocationWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     onPressed: widget.setLocationFromGps,
-                    child: Text("Set Location from GPS")),
+                    child: Text("GPS")),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: _clearLocation,
+                    child: Text("Clear Location")),
               ),
             ],
           ),

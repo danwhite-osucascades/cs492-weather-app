@@ -34,7 +34,6 @@ Future<Location?> getLocationFromString(String s) async {
         country: placemarks[0].country ?? "",
         latitude: locations[0].latitude,
         longitude: locations[0].longitude);
-        
   } on Exception {
     return null;
   }

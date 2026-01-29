@@ -5,13 +5,8 @@ import './models/location.dart';
 import './widgets/location.dart';
 
 // TODOS:
-// Use a TabBar to separate the location and weather into separate tabs
-// Use icons to represent each
-
-// Midpoint TODO:
-// Extract the forecast stuff into a single widget
-
-// Prevent tapping the weather tab unless a valid location is selected.
+// Add a clear location button to the location widget
+// If implemented correctly, the location should clear, and you shouldn't be able to click the weather tab
 
 void main() {
   runApp(const MyApp());
@@ -53,6 +48,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.index = 1;
+    _tabController.addListener((){
+      if (_location == null){
+        _tabController.index = 1;
+      }
+    });
   }
 
   void _setActiveForecast(Forecast forecast) {
@@ -70,8 +70,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   void _setLocation(String locationString) async {
-    Location? location = await getLocationFromString(locationString);
-    _getForecasts(location);
+    Location? location;
+    if (locationString != ""){
+      location = await getLocationFromString(locationString);
+      _getForecasts(location);
+    }
     setState(() {
       _location = location;
     });
