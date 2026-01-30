@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:weatherapp/providers/location_provider.dart';
 
 class LocationWidget extends StatefulWidget {
-  const LocationWidget({super.key, required this.locationProvider});
-
-  final LocationProvider locationProvider;
+  const LocationWidget({super.key});
 
   @override
   State<LocationWidget> createState() => _LocationWidgetState();
@@ -12,8 +12,9 @@ class LocationWidget extends StatefulWidget {
 
 class _LocationWidgetState extends State<LocationWidget> {
   final TextEditingController _locationController = TextEditingController();
-
   bool _showError = false;
+
+  late LocationProvider _locationActions;
 
   @override
   void initState() {
@@ -27,32 +28,42 @@ class _LocationWidgetState extends State<LocationWidget> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _locationActions = context.read<LocationProvider>();
+  }
+
   void _setLocation() {
     if (_locationController.text.isEmpty) {
       setState(() {
         _showError = true;
       });
     } else {
-      widget.locationProvider.setLocation(_locationController.text);
+      _locationActions.setLocation(_locationController.text);
     }
   }
 
   void _clearLocation() {
-    widget.locationProvider.setLocation(null);
+    _locationActions.setLocation(null);
     _locationController.text = "";
   }
 
   @override
   Widget build(BuildContext context) {
+    final locationProvider = context.watch<LocationProvider>();
+
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
         children: [
           TextField(
-              controller: _locationController,
-              decoration: InputDecoration(
-                  labelText: "Enter Location",
-                  errorText: _showError ? "Error: Must Type Location" : null)),
+            controller: _locationController,
+            decoration: InputDecoration(
+              labelText: "Enter Location",
+              errorText: _showError ? "Error: Must Type Location" : null,
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -64,8 +75,9 @@ class _LocationWidgetState extends State<LocationWidget> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: widget.locationProvider.setLocationFromGps,
-                    child: Text("GPS")),
+                  onPressed: _locationActions.setLocationFromGps,
+                  child: Text("GPS"),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -74,9 +86,12 @@ class _LocationWidgetState extends State<LocationWidget> {
               ),
             ],
           ),
-          Text(widget.locationProvider.location != null
-              ? "${widget.locationProvider.location?.city}, ${widget.locationProvider.location?.state} ${widget.locationProvider.location?.zip}"
-              : "No Location..."),
+          // reactive text
+          Text(
+            locationProvider.location != null
+                ? "${locationProvider.location?.city}, ${locationProvider.location!.state} ${locationProvider.location?.zip}"
+                : "No Location...",
+          ),
         ],
       ),
     );

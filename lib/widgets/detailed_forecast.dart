@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import '../models/forecast.dart';
+import 'package:provider/provider.dart';
+import 'package:weatherapp/providers/forecast_provider.dart';
 
 class DetailedForecast extends StatelessWidget {
   const DetailedForecast({
     super.key,
-    required Forecast? activeForecast,
-  }) : _activeForecast = activeForecast;
-
-  final Forecast? _activeForecast;
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (_activeForecast == null) {
+    final activeForecast = context.watch<ForecastProvider>().activeForecast;
+
+    if (activeForecast == null) {
       return const SizedBox(
         height: 300,
         child: Center(
@@ -38,7 +38,7 @@ class DetailedForecast extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _activeForecast!.name,
+                activeForecast!.name,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -49,7 +49,7 @@ class DetailedForecast extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Text(
-                    _activeForecast!.detailedForecast,
+                    activeForecast.detailedForecast,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           height: 1.4,
                         ),

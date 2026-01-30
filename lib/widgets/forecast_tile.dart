@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:weatherapp/providers/forecast_provider.dart';
+
 import '../models/forecast.dart';
 
 class ForecastTileWidget extends StatelessWidget {
-  const ForecastTileWidget({
-    super.key,
-    required this.forecast,
-    required this.setActiveForecast,
-  });
+  const ForecastTileWidget({super.key, required this.forecast});
 
   final Forecast forecast;
-  final void Function(Forecast) setActiveForecast;
-
-  void _setActiveForecast(){
-    setActiveForecast(forecast);
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final accentColor = forecast.isDaytime
-        ? Colors.orange
-        : Colors.indigo;
+    final accentColor = forecast.isDaytime ? Colors.orange : Colors.indigo;
 
     return InkWell(
-      onTap: _setActiveForecast,
+      onTap: () {
+        context.read<ForecastProvider>().setActiveForecast(forecast);
+      },
       child: SizedBox(
         width: 160,
         height: 200,
@@ -45,7 +40,7 @@ class ForecastTileWidget extends StatelessWidget {
                   ),
                 ),
               ),
-      
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(12),
@@ -61,14 +56,12 @@ class ForecastTileWidget extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-      
                       Text(
                         "${forecast.temperature}°",
                         style: theme.textTheme.displaySmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-      
                       Text(
                         forecast.shortForecast,
                         style: theme.textTheme.bodySmall,

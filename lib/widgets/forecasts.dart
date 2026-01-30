@@ -1,25 +1,19 @@
-
 import 'package:flutter/material.dart';
-import '../models/forecast.dart';
+import 'package:provider/provider.dart';
+
+import 'package:weatherapp/providers/forecast_provider.dart';
 import 'forecast_tile.dart';
 
-
 class ForecastsWidget extends StatelessWidget {
-  const ForecastsWidget({
-    super.key,
-    required List<Forecast> forecasts,
-    required this.setActiveForecast,
-  }) : _forecasts = forecasts;
-
-  final List<Forecast> _forecasts;
-  final void Function(Forecast) setActiveForecast;
+  const ForecastsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final forecastProvider = context.read<ForecastProvider>();
     return ListView(
         scrollDirection: Axis.horizontal,
-        children: _forecasts
-            .map((forecast) => ForecastTileWidget(forecast: forecast, setActiveForecast: setActiveForecast,))
+        children: forecastProvider.forecasts
+            .map((forecast) => ForecastTileWidget(forecast: forecast))
             .toList());
   }
 }
