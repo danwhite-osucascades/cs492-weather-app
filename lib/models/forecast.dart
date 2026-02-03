@@ -10,6 +10,7 @@ class Forecast {
   String shortForecast;
   String detailedForecast;
   bool isDaytime;
+  String imagePath;
 
   Forecast({
     required this.temperature,
@@ -19,6 +20,7 @@ class Forecast {
     required this.shortForecast,
     required this.detailedForecast,
     required this.isDaytime,
+    required this.imagePath
   });
 
   factory Forecast.fromJson(Map<String, dynamic> json){
@@ -29,7 +31,8 @@ class Forecast {
       name: json["name"],
       shortForecast: json["shortForecast"],
       detailedForecast: json["detailedForecast"],
-      isDaytime: json["isDaytime"]);
+      isDaytime: json["isDaytime"],
+      imagePath: getAssetFromDescription(json["shortForecast"]));
   }
 }
 
@@ -54,4 +57,14 @@ Future<List<Forecast>> getForecastsByLocation(double lat, double long) async {
   }
 
   return forecasts;
+}
+
+
+String getAssetFromDescription(String description){
+
+  if (description.toLowerCase().contains("sunny")){
+    return "assets/icons/clear_day.svg";
+  }
+
+  return "assets/icons/tornado.svg";
 }

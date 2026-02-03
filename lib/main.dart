@@ -8,7 +8,7 @@ import 'package:weatherapp/widgets/weather_body.dart';
 
 // TODO:
 // Go over the context providers more
-// Add icons to forecast_tile widget
+// Add icons to forecast_tile
 
 void main() {
   runApp(MultiProvider(providers: [
