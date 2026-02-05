@@ -6,10 +6,6 @@ import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/widgets/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_body.dart';
 
-// TODO:
-// Go over the context providers more
-// Add icons to forecast_tile
-
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => LocationProvider()),
