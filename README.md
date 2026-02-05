@@ -1,3 +1,8 @@
+# Assignment 5-2 Refactoring:
+- List refactoring ideas here (even impractical ones)
+- Try to come up with as many as possible
+- Try to complete as many as possible
+
 # Mobile App Development Class: Assignment Setup
 
 Welcome to the mobile app development class! This repository will hold the weather app which we will be working on each class. 

@@ -20,7 +20,7 @@ class WeatherAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(title), // use title directly
+      title: Text(title),
       actions: [
         if (locationProvider.location != null)
           Padding(
