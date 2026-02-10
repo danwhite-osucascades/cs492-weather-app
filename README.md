@@ -2,6 +2,8 @@
 - List refactoring ideas here (even impractical ones)
 - Try to come up with as many as possible
 - Try to complete as many as possible
+- unnecessary exlamation point (somewhere...)
+- main.dart: Try to not pass the location provider to the app bar widget, and read the context directly in that widget instead.
 
 # Mobile App Development Class: Assignment Setup
 

@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:weatherapp/providers/forecast_provider.dart';
 import 'package:weatherapp/providers/location_provider.dart';
-import 'package:weatherapp/widgets/weather_app_bar.dart';
-import 'package:weatherapp/widgets/weather_body.dart';
+import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
+import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final locationProvider = context.read<LocationProvider>();
+    final locationProvider = context.watch<LocationProvider>();
     final forecastProvider = context.read<ForecastProvider>();
 
     if (locationProvider.location != null) {
@@ -70,10 +70,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final locationProvider = context.watch<LocationProvider>();
-
+    
     return Scaffold(
-      appBar: WeatherAppBar(title: widget.title, locationProvider: locationProvider, tabController: _tabController),
+      appBar: WeatherAppBar(title: widget.title, tabController: _tabController),
       body: WeatherAppBody(tabController: _tabController),
     );
   }

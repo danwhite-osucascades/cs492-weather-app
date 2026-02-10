@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weatherapp/providers/location_provider.dart';
 
 class WeatherAppBar extends StatelessWidget implements PreferredSizeWidget {
   const WeatherAppBar({
     super.key,
     required this.title,
-    required this.locationProvider,
     required TabController tabController,
   }) : _tabController = tabController;
 
   final String title;
-  final LocationProvider locationProvider;
   final TabController _tabController;
 
   @override
@@ -18,6 +17,9 @@ class WeatherAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final locationProvider = context.watch<LocationProvider>();
+    
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       title: Text(title),

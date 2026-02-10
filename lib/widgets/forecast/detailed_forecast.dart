@@ -38,14 +38,17 @@ class DetailedForecast extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                activeForecast!.name,
+                activeForecast.name,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              const SizedBox(height: 8),
-              const Divider(),
-              const SizedBox(height: 8),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: const Divider(),
+              ),
+
               Expanded(
                 child: SingleChildScrollView(
                   child: Text(

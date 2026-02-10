@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:weatherapp/providers/location_provider.dart';
+import 'package:weatherapp/widgets/location/location_buttons.dart';
 
 class LocationWidget extends StatefulWidget {
   const LocationWidget({super.key});
@@ -64,29 +65,11 @@ class _LocationWidgetState extends State<LocationWidget> {
               errorText: _showError ? "Error: Must Type Location" : null,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: _setLocation, child: Text("Set Location")),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: _locationActions.setLocationFromGps,
-                  child: Text("GPS"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: _clearLocation, child: Text("Clear Location")),
-              ),
-            ],
+          LocationButtons(
+            setLocation: _setLocation,
+            setLocationFromGps: _locationActions.setLocationFromGps,
+            clearLocation: _clearLocation,
           ),
-          // reactive text
           Text(
             locationProvider.location != null
                 ? "${locationProvider.location?.city}, ${locationProvider.location!.state} ${locationProvider.location?.zip}"
@@ -97,3 +80,5 @@ class _LocationWidgetState extends State<LocationWidget> {
     );
   }
 }
+
+
