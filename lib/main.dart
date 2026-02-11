@@ -6,6 +6,9 @@ import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 
+// TODO:
+// use shared preferences to set the light mode/dark mode preferences
+// Store the active location in shared preferences
 
 void main() {
   runApp(MultiProvider(providers: [
