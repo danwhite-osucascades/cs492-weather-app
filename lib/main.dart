@@ -6,11 +6,6 @@ import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 
-// TODO:
-// Every time a location is added, save it to a stored locations variable
-// Store the saved locations in a json file
-// When the app loads, load the saved locations from the json file
-// Allow deleting locations by adding a delete button
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -50,6 +45,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    final locationProvider = context.read<LocationProvider>();
+    locationProvider.loadSavedLocations();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.index = 1;
     _tabController.addListener(() {
@@ -76,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: WeatherAppBar(title: widget.title, tabController: _tabController),
       body: WeatherAppBody(tabController: _tabController),

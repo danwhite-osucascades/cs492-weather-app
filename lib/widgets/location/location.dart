@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/widgets/location/location_buttons.dart';
+import 'package:weatherapp/widgets/location/saved_locations.dart';
 
 class LocationWidget extends StatefulWidget {
   const LocationWidget({super.key});
@@ -41,12 +42,12 @@ class _LocationWidgetState extends State<LocationWidget> {
         _showError = true;
       });
     } else {
-      _locationActions.setLocation(_locationController.text);
+      _locationActions.setLocationFromString(_locationController.text);
     }
   }
 
   void _clearLocation() {
-    _locationActions.setLocation(null);
+    _locationActions.setLocationFromString(null);
     _locationController.text = "";
   }
 
@@ -72,15 +73,15 @@ class _LocationWidgetState extends State<LocationWidget> {
           ),
           Text(
             locationProvider.location != null
-                ? "${locationProvider.location?.city}, ${locationProvider.location!.state} ${locationProvider.location?.zip}"
+                ? "${locationProvider.location?.city}, ${locationProvider.location?.state} ${locationProvider.location?.zip}"
                 : "No Location...",
           ),
-          SizedBox(height: 500, width: 500, child: ListView(scrollDirection: Axis.vertical, children: locationProvider.savedLocations.values.map((e)=>Text(e.zip)).toList()))
+          SizedBox(
+              height: 500,
+              width: 500,
+              child: SavedLocations())
         ],
       ),
     );
   }
 }
-
-// TODO: Display saved lcoations in the location widget
-
