@@ -7,6 +7,8 @@ import 'package:weatherapp/models/location.dart';
 
 import 'package:path_provider/path_provider.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class LocationProvider extends ChangeNotifier {
   Location? location;
 
@@ -27,14 +29,18 @@ class LocationProvider extends ChangeNotifier {
       }
     }
 
-    if (location == null && savedLocations.values.isNotEmpty){
-      location = savedLocations.values.first;
+    if (location == null && savedLocations.values.isNotEmpty) {
+      final prefs = SharedPreferencesAsync();
+      String? savedZip = await prefs.getString("savedZip");
+      if (savedZip != null && savedLocations.containsKey(savedZip)) {
+        location = savedLocations[savedZip];
+      }
     }
 
     notifyListeners();
   }
 
-  void deleteLocation(String zip){
+  void deleteLocation(String zip) {
     savedLocations.remove(zip);
     storeSavedLocations();
     notifyListeners();
@@ -63,6 +69,7 @@ class LocationProvider extends ChangeNotifier {
     if (location != null && !savedLocations.containsKey(location!.zip)) {
       savedLocations[location!.zip] = location!;
     }
+    saveZipToPrefs();
     storeSavedLocations();
     notifyListeners();
   }
@@ -77,12 +84,23 @@ class LocationProvider extends ChangeNotifier {
     if (location != null && !savedLocations.containsKey(location!.zip)) {
       savedLocations[location!.zip] = location!;
     }
+    saveZipToPrefs();
     storeSavedLocations();
     notifyListeners();
   }
 
-  void setLocation(Location loc){
+  void setLocation(Location loc) {
     location = loc;
     notifyListeners();
+    saveZipToPrefs();
+  }
+
+  void saveZipToPrefs() async {
+    final prefs = SharedPreferencesAsync();
+    if (location != null) {
+      await prefs.setString("savedZip", location!.zip);
+    } else {
+      await prefs.remove("savedZip");
+    }
   }
 }
