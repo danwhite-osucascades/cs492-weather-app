@@ -7,10 +7,6 @@ import 'package:weatherapp/providers/theme_provider.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 
-// TODO:
-// use shared preferences to store the location (by zip code) when it's set
-// load the location if it exists as the default location when the app starts
-
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => LocationProvider()),
