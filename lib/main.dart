@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:weatherapp/providers/forecast_provider.dart';
 import 'package:weatherapp/providers/location_provider.dart';
+import 'package:weatherapp/providers/theme_provider.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 
@@ -13,7 +14,8 @@ import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => LocationProvider()),
-    ChangeNotifierProvider(create: (context) => ForecastProvider())
+    ChangeNotifierProvider(create: (context) => ForecastProvider()),
+    ChangeNotifierProvider(create: (context) => ThemeProvider())
   ], child: const MyApp()));
 }
 
@@ -21,13 +23,19 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     return MaterialApp(
       title: 'CS492',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.light),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.dark),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'CS492'),
+      themeMode: themeProvider.darkMode ? ThemeMode.dark : ThemeMode.light,
     );
   }
 }
