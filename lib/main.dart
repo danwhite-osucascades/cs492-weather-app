@@ -8,8 +8,8 @@ import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 
 // TODO:
-// use shared preferences to set the light mode/dark mode preferences
-// Store the active location in shared preferences
+// use shared preferences to store the location when it's set
+// load the location if it exists as the default location when the app starts
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -58,6 +58,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     final locationProvider = context.read<LocationProvider>();
     locationProvider.loadSavedLocations();
+    final themeProvider = context.read<ThemeProvider>();
+    themeProvider.loadDarkModePrefs();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.index = 1;
     _tabController.addListener(() {
