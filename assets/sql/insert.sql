@@ -1,0 +1,1 @@
+INSERT INTO location_entries(latitude, longitude, city, state, zip) VALUES(?,?,?,?,?);

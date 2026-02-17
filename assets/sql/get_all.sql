@@ -1,0 +1,1 @@
+SELECT * FROM location_entries;
