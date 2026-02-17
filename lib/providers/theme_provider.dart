@@ -8,7 +8,10 @@ class ThemeProvider extends ChangeNotifier {
   void loadDarkModePrefs() async {
     final prefs = SharedPreferencesAsync();
     bool? mode = await prefs.getBool("darkMode");
-    setDarkMode(mode!);
+    if (mode != null){
+      setDarkMode(mode);
+    }
+    
     }
 
   void setDarkMode(bool mode) async {
