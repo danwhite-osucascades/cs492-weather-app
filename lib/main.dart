@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     final locationProvider = context.read<LocationProvider>();
     locationProvider.loadSavedLocations();
+    locationProvider.openDatabase();
     final themeProvider = context.read<ThemeProvider>();
     themeProvider.loadDarkModePrefs();
     _tabController = TabController(length: 2, vsync: this);

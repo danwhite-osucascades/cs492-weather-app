@@ -61,11 +61,7 @@ class LocationDatabase {
     await _db.transaction((txn) async {
       String query = await rootBundle.loadString(sqlDeletePath);
 
-      List<dynamic> rawDeleteParameters = [
-        location.city,
-        location.state,
-        location.zip
-      ];
+      List<dynamic> rawDeleteParameters = [location.zip];
       await txn.rawDelete(query, rawDeleteParameters);
     });
   }
