@@ -15,7 +15,7 @@ class SavedLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     final locationProvider = context.watch<LocationProvider>();
     void deleteLocation() {
-      locationProvider.deleteLocation(location.zip);
+      locationProvider.deleteLocation(location);
     }
 
     void setLocation() {

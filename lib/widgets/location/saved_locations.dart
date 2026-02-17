@@ -13,7 +13,7 @@ class SavedLocations extends StatelessWidget {
     final locationProvider = context.watch<LocationProvider>();
     return ListView(
         scrollDirection: Axis.vertical,
-        children: locationProvider.savedLocations.values
+        children: locationProvider.savedLocations
             .map((location) => SavedLocation(location: location))
             .toList());
   }

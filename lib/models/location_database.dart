@@ -41,7 +41,7 @@ class LocationDatabase {
     return locations;
   }
 
-  void insertLocation(Location location) async {
+  Future<void> insertLocation(Location location) async {
     await _db.transaction((txn) async {
       String query = await rootBundle.loadString(sqlInsertPath);
 
@@ -57,7 +57,7 @@ class LocationDatabase {
     });
   }
 
-  void deleteLocation(Location location) async {
+  Future<void> deleteLocation(Location location) async {
     await _db.transaction((txn) async {
       String query = await rootBundle.loadString(sqlDeletePath);
 

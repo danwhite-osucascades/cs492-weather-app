@@ -1,14 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
-
 import 'package:weatherapp/models/location.dart';
-
-import 'package:path_provider/path_provider.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../models/location_database.dart';
 
 class LocationProvider extends ChangeNotifier {
@@ -20,9 +12,25 @@ class LocationProvider extends ChangeNotifier {
 
   void openDatabase() async {
     _db = await LocationDatabase.open();
+    await loadSavedLocations();
+    loadSharedZip();
   }
 
-  void loadSavedLocations() async {
+  void loadSharedZip() async {
+    if (location == null && savedLocations.isNotEmpty) {
+      final prefs = SharedPreferencesAsync();
+      String? savedZip = await prefs.getString("savedZip");
+      
+      for (int i = 0; i < savedLocations.length; i++){
+        if (savedLocations[i].zip == savedZip){
+          location = savedLocations[i];
+          notifyListeners();
+        }
+      }
+    }
+  }
+
+  Future<void> loadSavedLocations() async {
     
     if (_db != null){
       savedLocations = (await _db?.getLocations())!;
@@ -31,38 +39,27 @@ class LocationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteLocation(String zip) {
-    // TODO: delete the location by zip using the _db method
-    
-    notifyListeners();
+  void deleteLocation(Location loc) async {
+    if (_db != null){
+      await _db?.deleteLocation(loc);
+      loadSavedLocations();
+    }
   }
 
-  void storeSavedLocations() async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    final path = File('${directory.path}/savedLocations.json');
-
-    Map<String, dynamic> outputJson = {};
-
-    outputJson["savedLocations"] = savedLocations.values
-        .toList()
-        .map((location) => location.toJson())
-        .toList();
-
-    String outputString = jsonEncode(outputJson);
-
-    await path.writeAsString(outputString);
+  void storeSavedLocation(Location loc) async {
+    if (_db != null){
+      await _db?.insertLocation(loc);
+      loadSavedLocations();
+    }
   }
 
   void setLocationFromGps() async {
     location = await getLocationFromGps();
 
-    if (location != null && !savedLocations.containsKey(location!.zip)) {
-      savedLocations[location!.zip] = location!;
+    if (location != null) {
+      storeSavedLocation(location!);
     }
     saveZipToPrefs();
-    storeSavedLocations();
-    notifyListeners();
   }
 
   void setLocationFromString(String? locationString) async {
@@ -72,12 +69,10 @@ class LocationProvider extends ChangeNotifier {
       location = null;
     }
 
-    if (location != null && !savedLocations.containsKey(location!.zip)) {
-      savedLocations[location!.zip] = location!;
+    if (location != null) {
+      storeSavedLocation(location!);
     }
     saveZipToPrefs();
-    storeSavedLocations();
-    notifyListeners();
   }
 
   void setLocation(Location loc) {
