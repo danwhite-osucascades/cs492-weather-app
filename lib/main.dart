@@ -7,6 +7,12 @@ import 'package:weatherapp/providers/theme_provider.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 
+// TODAY'S GOALS:
+// Update the theme provider to add a seed color
+// Add a drawer
+// move the darkmode switch to the drawer
+// add a color picker to the drawer, which will allow the user to change the seed color
+
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => LocationProvider()),
