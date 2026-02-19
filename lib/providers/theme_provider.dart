@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +10,7 @@ class ThemeProvider extends ChangeNotifier {
 
   bool darkMode = false;
 
-  Color seedColor = const Color.fromARGB(255, 84, 164, 85);
+  Color seedColor = Colors.red;
 
   void setSeedColor(Color color){
     seedColor = color;

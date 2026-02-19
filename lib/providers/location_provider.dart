@@ -67,6 +67,7 @@ class LocationProvider extends ChangeNotifier {
       location = await getLocationFromString(locationString);
     } else {
       location = null;
+      notifyListeners();
     }
 
     if (location != null) {
