@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:weatherapp/providers/forecast_provider.dart';
 import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/providers/theme_provider.dart';
+import 'package:weatherapp/widgets/weather_ui/color_picker.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 
@@ -94,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       appBar: WeatherAppBar(title: widget.title, tabController: _tabController),
       endDrawer: DrawerWidget(),
       body: WeatherAppBody(tabController: _tabController),
-    );
+    ); 
   }
 }
 
@@ -108,16 +109,23 @@ class DrawerWidget extends StatelessWidget {
     final themeProvider = context.watch<ThemeProvider>();
     return Drawer(
         child: ListView(children: [
-      
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      Column(
         children: [
-          Text("Dark Mode"),
-          Switch(
-              value: themeProvider.darkMode,
-              onChanged: (value) => {themeProvider.setDarkMode(value)}),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Dark Mode"),
+              Switch(
+                  value: themeProvider.darkMode,
+                  onChanged: (value) => {themeProvider.setDarkMode(value)})
+            ],
+          ),
         ],
       ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SeedColorPicker(),
+      )
     ]));
   }
 }
