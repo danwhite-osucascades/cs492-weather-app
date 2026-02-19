@@ -29,11 +29,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CS492',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.light),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: themeProvider.seedColor, brightness: Brightness.light),
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.dark),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: themeProvider.seedColor, brightness: Brightness.dark),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'CS492'),
@@ -90,7 +92,32 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WeatherAppBar(title: widget.title, tabController: _tabController),
+      endDrawer: DrawerWidget(),
       body: WeatherAppBody(tabController: _tabController),
     );
+  }
+}
+
+class DrawerWidget extends StatelessWidget {
+  const DrawerWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+    return Drawer(
+        child: ListView(children: [
+      
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Dark Mode"),
+          Switch(
+              value: themeProvider.darkMode,
+              onChanged: (value) => {themeProvider.setDarkMode(value)}),
+        ],
+      ),
+    ]));
   }
 }
