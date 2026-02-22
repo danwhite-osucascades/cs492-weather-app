@@ -6,12 +6,19 @@ import 'package:weatherapp/providers/location_provider.dart';
 import 'package:weatherapp/providers/theme_provider.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+    WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
+    try {
+      await dotenv.load(fileName: ".env"); // Load environment variables
+    } catch (e) {
+      throw Exception('Error loading .env file: $e'); // Print error if any
+    }
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => LocationProvider()),
     ChangeNotifierProvider(create: (context) => ForecastProvider()),
-    ChangeNotifierProvider(create: (context) => ThemeProvider())
+    ChangeNotifierProvider(create: (context) => ThemeProvider()),
   ], child: const MyApp()));
 }
 
