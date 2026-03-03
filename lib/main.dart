@@ -8,6 +8,10 @@ import 'package:weatherapp/widgets/weather_ui/weather_app_bar.dart';
 import 'package:weatherapp/widgets/weather_ui/weather_body.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// TODO:
+// Add Semantics widgets to improve accessibility
+// https://api.flutter.dev/flutter/widgets/Semantics-class.html
+
 void main() async {
     WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
     try {
