@@ -46,17 +46,28 @@ class _DetailedForecastState extends State<DetailedForecast> {
 
   Future<String?> _getImage(String prompt) async {
     final apiKey = dotenv.env['PEXELS_API_KEY'];
+    print(apiKey);
     if (apiKey == null) return null;
 
-    //TODO:
-    // Ensure you have your .env file with your api key:
-    // PEXELS_API_KEY = {your api key}
-    // Look through dart http to see how to create a get request
-    // https://pub.dev/packages/http
-    // Look through Pexels API documentation to see how to properly add the Api key to the headers.
-    // https://www.pexels.com/api/documentation/#client_libraries
-    // create a url with the prompt using Uri.parse
-    // https://api.flutter.dev/flutter/dart-core/Uri/parse.html
+    final uri = Uri.parse(
+      'https://api.pexels.com/v1/search?query=${Uri.encodeComponent(prompt)}&per_page=1',
+    );
+
+    final response = await http.get(
+      uri,
+      headers: {
+        'Authorization': apiKey,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      print(data);
+
+      if (data['photos'] != null && data['photos'].isNotEmpty) {
+        return data['photos'][0]['src']['large'];
+      }
+    }
 
     return null;
   }
