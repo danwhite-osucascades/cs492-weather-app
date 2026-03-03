@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
     return MaterialApp(
+      showSemanticsDebugger: false,
       title: 'CS492',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.light),

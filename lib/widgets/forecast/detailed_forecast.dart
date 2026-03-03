@@ -61,8 +61,6 @@ class _DetailedForecastState extends State<DetailedForecast> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print(data);
-
       if (data['photos'] != null && data['photos'].isNotEmpty) {
         return data['photos'][0]['src']['large'];
       }
@@ -87,67 +85,69 @@ class _DetailedForecastState extends State<DetailedForecast> {
       );
     }
 
-    return SizedBox(
-      height: 300,
-      width: double.infinity,
-      child: Card(
-        elevation: 3,
-        margin: const EdgeInsets.all(12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Stack(
-          children: [
-            // Background image
-            if (_imageUrl != null)
+    return ExcludeSemantics(
+      child: SizedBox(
+        height: 300,
+        width: double.infinity,
+        child: Card(
+          elevation: 3,
+          margin: const EdgeInsets.all(12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Stack(
+            children: [
+              // Background image
+              if (_imageUrl != null)
+                Positioned.fill(
+                  child: Image.network(
+                    _imageUrl!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+      
               Positioned.fill(
-                child: Image.network(
-                  _imageUrl!,
-                  fit: BoxFit.cover,
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.5),
                 ),
               ),
-
-            Positioned.fill(
-              child: Container(
-                color: Colors.black.withValues(alpha: 0.5),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    activeForecast.name,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      activeForecast.name,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: Divider(color: Colors.white70),
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Text(
+                          activeForecast.detailedForecast,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                height: 1.4,
+                                color: Colors.white,
+                              ),
                         ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Divider(color: Colors.white70),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Text(
-                        activeForecast.detailedForecast,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              height: 1.4,
-                              color: Colors.white,
-                            ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (_imageUrl == null)
-              const Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              ),
-          ],
+              if (_imageUrl == null)
+                const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                ),
+            ],
+          ),
         ),
       ),
     );
