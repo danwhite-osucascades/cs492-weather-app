@@ -46,7 +46,6 @@ class _DetailedForecastState extends State<DetailedForecast> {
 
   Future<String?> _getImage(String prompt) async {
     final apiKey = dotenv.env['PEXELS_API_KEY'];
-    print(apiKey);
     if (apiKey == null) return null;
 
     final uri = Uri.parse(
