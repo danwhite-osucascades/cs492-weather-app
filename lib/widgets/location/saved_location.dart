@@ -58,7 +58,7 @@ class SavedLocation extends StatelessWidget {
                 ),
               ),
               Semantics(
-                label: "Delete Location Button for ${location.city}, ${location.state}."
+                label: "Delete Location Button for ${location.city}, ${location.state}.",
                 child: IconButton(
                   icon: const Icon(
                     Icons.delete,
