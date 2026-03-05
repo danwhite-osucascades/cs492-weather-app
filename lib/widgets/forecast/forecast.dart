@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:weatherapp/widgets/forecast/detailed_forecast.dart';
-import 'package:weatherapp/widgets/forecast/forecasts.dart';
+import 'package:weatherapp/widgets/forecast/detailed_forecast/detailed_forecast.dart';
+import 'package:weatherapp/widgets/forecast/forecast_tiles/forecasts_row.dart';
 
 class ForecastWidget extends StatelessWidget {
   const ForecastWidget({super.key});
@@ -13,7 +13,7 @@ class ForecastWidget extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           height: 200,
-          child: ForecastsWidget(),
+          child: ForecastsRowWidget(),
         ),
         DetailedForecast()
       ],

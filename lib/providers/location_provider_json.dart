@@ -3,11 +3,19 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:weatherapp/models/location.dart';
+import 'package:weatherapp/models/locations/location.dart';
 
 import 'package:path_provider/path_provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+
+/*
+
+This is no longer in use. Please use location_provider.dart instead (which uses sql)
+
+This is a resource to help in case you (for some odd reason) need to save json files.
+
+*/
 
 class LocationProvider extends ChangeNotifier {
   Location? location;

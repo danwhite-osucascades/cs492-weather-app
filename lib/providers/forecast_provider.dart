@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:weatherapp/models/forecast.dart';
-import 'package:weatherapp/models/location.dart';
+import 'package:weatherapp/models/locations/location.dart';
 
 class ForecastProvider extends ChangeNotifier {
   List<Forecast> forecasts = [];

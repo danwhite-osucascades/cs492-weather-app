@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weatherapp/widgets/location/location_button.dart';
+import 'package:weatherapp/widgets/location/set_location/location_button.dart';
 
 class LocationButtons extends StatelessWidget {
   const LocationButtons(

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:weatherapp/models/location.dart';
+import 'package:weatherapp/models/locations/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/location_database.dart';
+import '../models/locations/location_database.dart';
 
 class LocationProvider extends ChangeNotifier {
   Location? location;
@@ -20,9 +20,9 @@ class LocationProvider extends ChangeNotifier {
     if (location == null && savedLocations.isNotEmpty) {
       final prefs = SharedPreferencesAsync();
       String? savedZip = await prefs.getString("savedZip");
-      
-      for (int i = 0; i < savedLocations.length; i++){
-        if (savedLocations[i].zip == savedZip){
+
+      for (int i = 0; i < savedLocations.length; i++) {
+        if (savedLocations[i].zip == savedZip) {
           location = savedLocations[i];
           notifyListeners();
         }
@@ -31,8 +31,7 @@ class LocationProvider extends ChangeNotifier {
   }
 
   Future<void> loadSavedLocations() async {
-    
-    if (_db != null){
+    if (_db != null) {
       savedLocations = (await _db?.getLocations())!;
     }
 
@@ -40,14 +39,14 @@ class LocationProvider extends ChangeNotifier {
   }
 
   void deleteLocation(Location loc) async {
-    if (_db != null){
+    if (_db != null) {
       await _db?.deleteLocation(loc);
       loadSavedLocations();
     }
   }
 
   void storeSavedLocation(Location loc) async {
-    if (_db != null){
+    if (_db != null) {
       await _db?.insertLocation(loc);
       loadSavedLocations();
     }

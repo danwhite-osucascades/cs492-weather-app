@@ -1,9 +1,13 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
 
   bool darkMode = false;
+
+  final Color daytimeColor = Colors.orange;
+  final Color nighttimeColor = Colors.indigo;
+  final Color dangerColor = Colors.redAccent;
 
   void loadDarkModePrefs() async {
     final prefs = SharedPreferencesAsync();

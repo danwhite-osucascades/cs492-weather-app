@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weatherapp/providers/location_provider.dart';
-import 'package:weatherapp/widgets/location/saved_location.dart';
+import 'package:weatherapp/widgets/location/saved_locations/saved_location.dart';
 
 class SavedLocations extends StatelessWidget {
   const SavedLocations({

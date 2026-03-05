@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:weatherapp/providers/location_provider.dart';
-import 'package:weatherapp/widgets/location/location_buttons.dart';
-import 'package:weatherapp/widgets/location/saved_locations.dart';
+import 'package:weatherapp/widgets/location/set_location/location_buttons.dart';
+import 'package:weatherapp/widgets/location/saved_locations/saved_locations.dart';
 
 class LocationWidget extends StatefulWidget {
   const LocationWidget({super.key});

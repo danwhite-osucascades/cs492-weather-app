@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:weatherapp/providers/forecast_provider.dart';
 import 'forecast_tile.dart';
 
-class ForecastsWidget extends StatelessWidget {
-  const ForecastsWidget({super.key});
+class ForecastsRowWidget extends StatelessWidget {
+  const ForecastsRowWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
