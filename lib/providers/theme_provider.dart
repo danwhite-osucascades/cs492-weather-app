@@ -8,6 +8,7 @@ class ThemeProvider extends ChangeNotifier {
   final Color daytimeColor = Colors.orange;
   final Color nighttimeColor = Colors.indigo;
   final Color dangerColor = Colors.redAccent;
+  final Color grey = Colors.grey[600] ?? Colors.grey;
 
   void loadDarkModePrefs() async {
     final prefs = SharedPreferencesAsync();
