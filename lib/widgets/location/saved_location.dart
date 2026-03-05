@@ -21,6 +21,7 @@ class SavedLocation extends StatelessWidget {
     void setLocation() {
       locationProvider.setLocation(location);
     }
+
     return Card(
       elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
@@ -56,12 +57,15 @@ class SavedLocation extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.redAccent,
+              Semantics(
+                label: "Delete Location Button for ${location.city}, ${location.state}."
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: deleteLocation,
                 ),
-                onPressed: deleteLocation,
               ),
             ],
           ),
